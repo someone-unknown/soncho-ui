@@ -1,8 +1,7 @@
 {
   "private": true,
   "version": "0.0.1",
-  "description": "sonchō UI component library",
-  "main": "dist/index.js",
+  "main": "resource/index.ts",
   "type": "module",
   "scripts": {
     "demo": "vite",
