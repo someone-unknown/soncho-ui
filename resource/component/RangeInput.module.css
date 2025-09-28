@@ -1,0 +1,75 @@
+:root {
+  --slider-track: #d9d9df;
+  --slider-fill:  #7b87ff; /* или твой бренд-акцент */
+  --slider-thumb: #111;
+  --slider-thumb-shadow: 0 1px 2px rgba(0,0,0,.12);
+  --slider-focus: #5b8cff;
+
+  --slider-radius: 9999px;
+  --slider-height: 4px;
+  --slider-thumb-size: 16px;
+
+  --slider-motion: 160ms cubic-bezier(.2,.8,.2,1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --slider-track: #3b3b45;
+    --slider-fill:  #9aa3ff;
+    --slider-thumb: #f5f5f7;
+    --slider-thumb-shadow: 0 1px 2px rgba(0,0,0,.4);
+    --slider-focus: #b9c7ff;
+  }
+}
+
+.container {
+  position: relative; display: flex; align-items: center; height: 28px; overflow: hidden;
+}
+
+.input {
+  position: relative; z-index: 1; width: 100%; height: 100%;
+  appearance: none; background: transparent; opacity: 0; margin: 0; cursor: pointer;
+  -webkit-tap-highlight-color: transparent; touch-action: none;
+}
+
+.trackContainer { position: absolute; inset: 0; padding: 0 12px; pointer-events: none; display: flex; align-items: center; }
+.trackViewport  { position: relative; width: 100%; height: 100%; }
+.trackTransform { position: absolute; width: 100%; height: 24px; display: flex; align-items: center; contain: layout; transform: translate3d(0,0,0); will-change: transform; }
+
+.track { position: absolute; width: 100%; height: var(--slider-height); border-radius: var(--slider-radius); }
+.trackFilled { background: var(--slider-fill); transform: translate3d(calc(-100% - var(--slider-thumb-size)),0,0); }
+.trackEmpty  { background: var(--slider-track); transform: translate3d(var(--slider-thumb-size),0,0); }
+
+.thumb {
+  position: relative;
+  width: var(--slider-thumb-size); height: var(--slider-thumb-size);
+  border-radius: var(--slider-radius);
+  background: var(--slider-thumb);
+  transform: translate3d(calc(-1 * var(--slider-thumb-size) / 2), 0, 0);
+  box-shadow: var(--slider-thumb-shadow);
+}
+
+.thumb::before {
+  content: ""; position: absolute; inset: -8px; border-radius: inherit;
+}
+
+@media (hover: hover) {
+  .input:hover ~ .trackContainer .thumb { transform: translate3d(calc(-1 * var(--slider-thumb-size) / 2),0,0) scale(1.02); }
+}
+
+.input:active ~ .trackContainer .thumb { transform: translate3d(calc(-1 * var(--slider-thumb-size) / 2),0,0) scale(0.98); }
+
+.input:focus-visible ~ .trackContainer .thumb {
+  outline: 3px solid var(--slider-focus);
+  outline-offset: 2px;
+}
+
+.input:disabled { cursor: not-allowed; }
+.input:disabled ~ .trackContainer .thumb { opacity: .5; }
+.input:disabled ~ .trackContainer .trackFilled { opacity: .5; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .thumb, .trackFilled, .trackEmpty {
+    transition: transform var(--slider-motion), box-shadow var(--slider-motion), opacity 120ms linear;
+  }
+}

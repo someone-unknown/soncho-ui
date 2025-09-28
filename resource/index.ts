@@ -1,0 +1,1 @@
+export { RangeInput, type RangeInputProps } from './component/RangeInput';

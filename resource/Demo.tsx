@@ -5,7 +5,7 @@ import {RangeInput} from './component/RangeInput';
 export function Demo(): JSXElement {
   return (
     <div>
-      <RangeInput />
+      <RangeInput minValue={0} maxValue={100} step={0.01} />
     </div>
   );
 }
